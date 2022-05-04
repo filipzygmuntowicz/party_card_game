@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="126.248" height="126.248" viewBox="0 0 126.248 126.248">
+  <defs>
+    <linearGradient id="linear-gradient" x1="1.102" y1="-0.087" x2="-0.063" y2="1.033" gradientUnits="objectBoundingBox">
+      <stop offset="0" stop-color="#717afb"/>
+      <stop offset="1" stop-color="#c058e5"/>
+    </linearGradient>
+  </defs>
+  <g id="bubble-3" transform="translate(-147.667 -33.834) rotate(-14)">
+    <circle id="Ellipse_4" data-name="Ellipse 4" cx="52.073" cy="52.073" r="52.073" transform="translate(129 93)" fill="url(#linear-gradient)"/>
+    <text id="_" data-name="😂" transform="translate(161.295 168.838) rotate(-21)" fill="#fff" font-size="38" font-family="SegoeUIEmoji, Segoe UI Emoji"><tspan x="0" y="0">😂</tspan></text>
+  </g>
+</svg>
