@@ -1,9 +1,9 @@
 <template>
     <article class="card" v-if="!empty">
-        <div class="card__top">Śmieszne</div>
-        <div class="card__content">Czy cośtam cośtam?</div>
+        <div class="card__top">{{props.category}}</div>
+        <div class="card__content">{{props.question}}</div>
         <div class="card__bottom">
-            <span class="card__player">Gracz</span>
+            <span class="card__player"> <nuxt-icon name="user"/> {{props.player}}</span>
         </div>
     </article>
     <article v-else class="card--empty">
@@ -16,6 +16,17 @@ const props = defineProps({
   question: {
     type: String,
     required: false
+  },
+  player: {
+      type: String,
+      default: 'Player'
+  },
+  category: {
+      type: String,
+      default: 'Sport'
+  },
+  color: {
+      type: String
   }
 })
 
@@ -24,8 +35,10 @@ if(props.question){
     empty.value = false
 }
 if(process.client){
-    const randomColor = Math.floor(Math.random() * (360 - 0 + 1))
-    document.querySelector('.card__bottom').style.backgroundColor = `hsla(${randomColor}deg, 100%, 70%, 1)`
+    if(props?.color && props?.color === "random"){
+        const randomColor = Math.floor(Math.random() * (360 - 0 + 1))
+        document.querySelector('.card__bottom').style.backgroundColor = `hsla(${randomColor}deg, 100%, 70%, 1)`
+    }
 }
 
 </script>

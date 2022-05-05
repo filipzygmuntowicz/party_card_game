@@ -18,7 +18,7 @@
                 </div>
                 <div class="box__main">
                     <GameCard />
-                    <GameCard question="Co byś zrobił gdyby..."/>
+                    <GameCard question="Co byś zrobił gdyby..." color="random"/>
                     <GameCard />
                 </div>
                 <div class="box__aside">
