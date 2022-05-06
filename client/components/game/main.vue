@@ -1,23 +1,73 @@
 <template>
     <box>
+      <client-only>
         <swiper
             :effect="'cards'"
             :grabCursor="true"
             :modules="modules"
-            class="mySwiper"
+            :allowSlidePrev="false"
+            @slideChange="nextCard"
+            @init="createCards"
         >
-        <swiper-slide><GameCard question="Dlaczego jesteś taki?" /></swiper-slide>
-        <swiper-slide><GameCard question="Dlaczego jesteś taki?2" /></swiper-slide>
-        <swiper-slide><GameCard question="Dlaczego jesteś taki?3" /></swiper-slide>
+          <swiper-slide v-for="(slide, index) in slides" :key="index" >
+            <GameCard :question="slide.question || ''" :category="slide.category || ''" :player="slide.player || false"/>
+          </swiper-slide>
         </swiper>
+        </client-only>
     </box>
 </template>
 
+
+<script setup>
+const props = defineProps({
+  categories: {
+    type: Array,
+    required: true
+  },
+  players: {
+    type: Array,
+    required: false
+  }
+})
+const slides = ref([{question: 'Daj mi chwilkę...', category: 'Ładowanie'}])
+const categories = props.categories.join(",") || 'random'
+const players = props.players
+
+const createQuestion = (data) =>{
+  const questions = []
+    if(data.length > 0){
+      data.forEach((question)=>{
+        questions.push({
+          question: question.question,
+          category: question.name
+        })
+      })
+    }
+    if(players.length > 1){
+      questions.forEach((question)=>{
+        question.player = players[Math.floor(Math.random() * players.length)].name
+      })
+    }
+
+    slides.value.push(...questions)
+    
+}
+
+const createCards = async () => {
+  const { items } = await $fetch(`https://justcors.com/tl_ed7b0b9/https://drinkixxy.herokuapp.com/api/question?category=${categories}&count=3`)
+  slides.value = []
+  createQuestion(items)
+}
+const nextCard = async () =>{
+  const { items } = await $fetch(`https://justcors.com/tl_ed7b0b9/https://drinkixxy.herokuapp.com/api/question?category=${categories}`)
+  createQuestion(items)
+}
+</script>
 <script>
 import { Swiper, SwiperSlide } from "swiper/vue"
 
-import "swiper/css"
-import "swiper/css/effect-cards"
+import "swiper/scss"
+import "swiper/scss/effect-cards"
 
 import { EffectCards } from "swiper"
 
@@ -30,19 +80,13 @@ export default {
   },
   setup() {
     return {
-      modules,
-    };
+      modules
+    }
   },
-};
-
-
-</script>
-<script setup>
-
+}
 </script>
 
 <style lang="scss">
-
 .swiper {
   width: 240px;
   height: 320px;

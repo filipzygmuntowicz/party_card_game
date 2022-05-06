@@ -1,8 +1,10 @@
 <template>
-	<MainNav />
-    <MainHero />
-	<MainRules />
-	<MainAuthors />
+	<div class="container">
+		<MainNav />
+		<MainHero />
+		<MainRules />
+		<MainAuthors />
+	</div>
 </template>
 
 <style lang="scss">

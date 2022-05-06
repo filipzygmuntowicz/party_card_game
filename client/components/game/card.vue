@@ -1,13 +1,18 @@
 <template>
-    <article class="card" v-if="!empty">
-        <div class="card__top">{{props.category}}</div>
-        <div class="card__content">{{props.question}}</div>
-        <div class="card__bottom">
-            <span class="card__player"> <nuxt-icon name="user"/> {{props.player}}</span>
-        </div>
+    <article class="card" v-if="!empty" :class="{ 'first': props.first }">
+        <template v-if="props.first">
+            <img src="@/assets/images/logo.svg" alt="Drinking card game">
+            Zaczynajmy!
+        </template>
+        <template v-else>
+            <div class="card__top">{{props.category}}</div>
+            <div class="card__content" :class="{ 'only': !props.player }">{{props.question}}</div>
+            <div class="card__bottom" v-if="props.player">
+                <span class="card__player"> <nuxt-icon name="user"/> {{props.player}}</span>
+            </div>
+        </template>
     </article>
     <article v-else class="card--empty">
-
     </article>
 </template>
 
@@ -18,8 +23,8 @@ const props = defineProps({
     required: false
   },
   player: {
-      type: String,
-      default: 'Player'
+      type: String || Boolean,
+      default: false
   },
   category: {
       type: String,
@@ -27,11 +32,15 @@ const props = defineProps({
   },
   color: {
       type: String
+  },
+  first: {
+      type: Boolean,
+      default: false
   }
 })
 
 const empty = ref(true)
-if(props.question){
+if(props.question || props.first){
     empty.value = false
 }
 if(process.client){
@@ -55,6 +64,13 @@ if(process.client){
     flex-direction: column;
     justify-content: space-between;
     text-align: center;
+}
+.card.first{
+    background-color: #761774;
+    justify-content: center;
+    gap: 2em;
+    box-shadow:
+    0 0 50px -20px rgb(255, 21, 130)
 }
 
 .card--empty{
@@ -104,6 +120,10 @@ if(process.client){
     line-height: 120%;
     letter-spacing: 0.5px;
     color: #222;
+    font-size: 0.7em;
+}
+.card__content.only{
+    flex-grow: 0.5;
 }
 .card__bottom{
     width: 100%;
@@ -134,6 +154,6 @@ if(process.client){
     padding: 0.6rem 2rem;
     background-color: rgba(0,0,0,0.4);
     border-radius: 25rem;
-
+    font-size: 0.65em;
 }
 </style>

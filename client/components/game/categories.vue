@@ -2,21 +2,26 @@
         <box class="game__box">
             <h1><img src="@/assets/images/logo.svg" alt="Drinking card game"></h1>
             <span class="title">Wybierz kategorie</span>
-            <label class="box__input">
-                <span class="checkbox__text">Popular ⭐</span>
-                <input type="checkbox" value="x">
-            </label>
 
-            <button type="button" class="submit" @click="$emit('changeStage', { stage: 1 })">Graj</button>
+            <ul class="players">
+                <li class="box__input" v-for="category in categories" :key="category">
+                    <label>
+                        <span class="checkbox__text">{{category.name}} {{category.nsfw.toLowerCase() === 'true' ? '(nsfw)' : ''}}</span>
+                        <input type="checkbox" :value="category.name" v-model="selectedCategories">
+                    </label>
+                </li>
+            </ul>
+            <button type="button" class="submit" @click="$emit('changeStage', { stage: 1, categories: selectedCategories })">Graj</button>
             <button type="button" class="btn-return" @click="$emit('changeStage', {stage: -1})">Wróć</button>
         </box>
 </template>
 
 <script setup>
-const categories = [{
-    name: 'Popular',
-    nsfw: false
-}]
+
+const { items: categories } = await $fetch('https://justcors.com/tl_ed7b0b9/https://drinkixxy.herokuapp.com/api/categories')
+
+const selectedCategories = ref([])
+
 </script>
 
 <style lang="scss" scoped>
@@ -50,6 +55,13 @@ h1{
     gap: 1rem;
     justify-content: center;
     align-items: center;
+    label{
+        display: flex;
+        width: 100%;
+        gap: 1rem;
+        justify-content: center;
+        align-items: center;
+    }
     input{
         padding: 0.5em 1em;
         font-size: 1em;

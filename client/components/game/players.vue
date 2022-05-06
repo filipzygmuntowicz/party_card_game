@@ -14,12 +14,13 @@
                         <button type="button" class="btn btn-danger" @click="removePlayer"><nuxt-icon name="minus" /></button>
                     </li>
                 </ul>
-                <button type="button" class="submit" @click="$emit('changeStage', { stage: 1 })">Graj</button>
+                <button type="button" class="submit" @click="$emit('changeStage', { stage: 1, players: players })">Graj</button>
             </template>
             <template v-else>
                 <p class="additionaltext"> Wolisz grać po swojemu? </p>
                 <button type="button" class="submit" @click="$emit('changeStage', { stage: 1 })">Graj bez graczy</button>
             </template>
+            <NuxtLink  class="btn-return" to="/#hero">Wróć</NuxtLink>
         </box>
 </template>
 
