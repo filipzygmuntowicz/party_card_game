@@ -6,8 +6,8 @@
             <ul class="players">
                 <li class="box__input" v-for="category in categories" :key="category">
                     <label>
-                        <span class="checkbox__text">{{category.name}} {{category.nsfw.toLowerCase() === 'true' ? '(nsfw)' : ''}}</span>
-                        <input type="checkbox" :value="category.name" v-model="selectedCategories">
+                        <span class="checkbox__text">{{category.category}} {{category.nsfw ? '(nsfw)' : ''}}</span>
+                        <input type="checkbox" :value="category.category" v-model="selectedCategories">
                     </label>
                 </li>
             </ul>
@@ -18,7 +18,7 @@
 
 <script setup>
 
-const { items: categories } = await $fetch('https://justcors.com/tl_ed7b0b9/https://drinkixxy.herokuapp.com/api/categories')
+const { items: categories } = await $fetch('https://justcors.com/tl_3adbbae/https://drinkixxy.herokuapp.com/api/categories')
 
 const selectedCategories = ref([])
 

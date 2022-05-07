@@ -39,7 +39,7 @@ const createQuestion = (data) =>{
       data.forEach((question)=>{
         questions.push({
           question: question.question,
-          category: question.name
+          category: question.category
         })
       })
     }
@@ -54,12 +54,13 @@ const createQuestion = (data) =>{
 }
 
 const createCards = async () => {
-  const { items } = await $fetch(`https://justcors.com/tl_ed7b0b9/https://drinkixxy.herokuapp.com/api/question?category=${categories}&count=3`)
+  const { items } = await $fetch(`https://justcors.com/tl_3adbbae/https://drinkixxy.herokuapp.com/api/question?category=${categories}&count=3`)
   slides.value = []
   createQuestion(items)
+  console.log(items)
 }
 const nextCard = async () =>{
-  const { items } = await $fetch(`https://justcors.com/tl_ed7b0b9/https://drinkixxy.herokuapp.com/api/question?category=${categories}`)
+  const { items } = await $fetch(`https://justcors.com/tl_3adbbae/https://drinkixxy.herokuapp.com/api/question?category=${categories}`)
   createQuestion(items)
 }
 </script>

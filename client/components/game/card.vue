@@ -23,7 +23,7 @@ const props = defineProps({
     required: false
   },
   player: {
-      type: String || Boolean,
+      type: [String, Boolean],
       default: false
   },
   category: {
