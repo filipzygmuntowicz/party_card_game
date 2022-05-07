@@ -4,5 +4,6 @@ import { defineNuxtConfig } from 'nuxt'
 export default defineNuxtConfig({
     css: [
         '@/assets/scss/reset.scss'
-    ]
+    ],
+    modules: ['./modules/nuxt-icons/module.ts',]
 })

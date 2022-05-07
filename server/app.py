@@ -15,7 +15,7 @@ app.secret_key = "don't tell anyone"
 api = Api(app)
 ENV = 'prod'
 
-if ENV == 'dev':
+if ENV == 'prod':
     config = str(open('configlocal.txt', 'r').read())
     app.debug = True
 else:

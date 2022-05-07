@@ -2,8 +2,9 @@
     <section class="hero" id="start">
         <article class="box">
             <h1>
-                <span class="title__bold">Drinking</span>
-                <span class="title__under">card game</span> 
+                <img src="@/assets/images/logo.svg" alt="Drinking card game">
+                <!-- <span class="title__bold">Drinking</span>
+                <span class="title__under">card game</span>  -->
             </h1>
             <div class="box__content">
                 <div class="box__aside">
@@ -18,7 +19,7 @@
                 </div>
                 <div class="box__main">
                     <GameCard />
-                    <GameCard question="Co byś zrobił gdyby..."/>
+                    <GameCard question="Co byś zrobił gdyby..." color="random"/>
                     <GameCard />
                 </div>
                 <div class="box__aside">
