@@ -4,12 +4,16 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_restful import Api, Resource
 import random
 
-jsonData = json.load(open('questions.json', encoding="utf-8"))
+json_data = json.load(open('questions.json', encoding="utf-8"))
+
+# NEEDS TO BE CHANGED AFTER ADDING/DELETNING A CATEGORY
+categories_count = 8
+
 
 app = Flask(__name__)
 app.secret_key = "don't tell anyone"
 api = Api(app)
-ENV = 'dev'
+ENV = 'prod'
 
 if ENV == 'dev':
     config = str(open('configlocal.txt', 'r').read())
@@ -19,71 +23,107 @@ else:
     app.debug = False
 
 app.config['SQLALCHEMY_DATABASE_URI'] = config
-bylo = []
-
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+app.config['JSONIFY_PRETTYPRINT_REGULAR'] = True
+
 db = SQLAlchemy(app)
 
 
-class Category(db.Model):
+def random_questions(par, value, count):
+    print(value)
+    if par == "category":
+        data = Card.query.filter_by(
+                            category=value).first()
+    elif par == "id":
+        data = Card.query.filter_by(
+                            id=value).first()
+    category = data.category
+    data = data.questions
+    data = list(data.split(';'))
+    return_data = []
+    if count > len(data):
+        count = len(data)
+    for i in range(0, count):
+        question = data[random.randint(0, len(data)-1)]
+        while question in return_data:
+            question = data[random.randint(0, len(data)-1)]
+        return_data.append(({
+                    "category": category,
+                    "question": question
+                    }))
+    return return_data
+
+
+class Card(db.Model):
     __tablename__ = 'Categories'
     id = db.Column(db.String, primary_key=True)
-    name = db.Column(db.String)
-    nsfw = db.Column(db.String)
+    category = db.Column(db.String)
+    nsfw = db.Column(db.Boolean)
     questions = db.Column(db.String)
 
     def __init__(
-        self, id, name,
+        self, id, category,
         nsfw, questions
     ):
         self.id = id
-        self.name = name
+        self.category = category
         self.nsfw = nsfw
         self.questions = questions
 
 
-class Categories_api(Resource):
+class All_cards_api(Resource):
     def get(self):
         data = []
-        for category in Category.query.all():
+        for card in Card.query.all():
             data.append({
-                "id": category.id,
-                "name": category.name,
-                "nsfw": category.nsfw,
-                "questions": list(category.questions.split('nextquestion'))}
+                "category": card.category,
+                "nsfw": card.nsfw,
+                "number_of_questions": len(list(
+                    card.questions.split(';'))
+                    )}
             )
-        return data
+        return {"items": data}
 
 
-class Question_api(Resource):
+class Select_cards_api(Resource):
     def get(self):
         args = request.args
-        for arg in args:
-            if arg == "category":
-                data = Category.query.filter_by(
-                    name=args.get(arg)).first().questions
-                data = list(data.split('nextquestion'))
-                rand = random.randint(0, len(data))
-                return data[rand]
+        count = 1
+        ret_data = []
+        if "count" in args:
+            count = int(args.get("count"))
+        if "category" in args:
+            categories = (args.get("category").split(','))
+            for category in categories:
+                if category != "random":
+                    for question in random_questions("category", category, count):
+                        ret_data.append(question)
+        if "category" not in args or "random" in categories:
+            for question in random_questions("id", str(random.randint(1, categories_count)), count):
+                ret_data.append(question)
+        random.shuffle(ret_data)
+        return {
+            "totalItems": len(ret_data[0:count]),
+            "items": ret_data[0:count]
+            }
 
 
-api.add_resource(Categories_api, "/api/categories")
-api.add_resource(Question_api, "/api/question")
+api.add_resource(All_cards_api, "/api/categories")
+api.add_resource(Select_cards_api, "/api/question")
 
 
-def addToDataBaseFromJSON(jsonData):
-    for x in jsonData:
-        data = Category(
+def add_to_database_from_json(json_data):
+    for x in json_data:
+        data = Card(
             x["id"],
             x["category"],
             x["nsfw"],
-            'nextquestion'.join([str(item).replace('"', '').replace(
-                "'", "") for item in x["questions"]])
+            ';'.join([item for item in x["questions"]])
         )
         db.session.add(data)
         db.session.commit()
 
-# addToDataBaseFromJSON(jsonData)
+#add_to_database_from_json(json_data)
 
 
 if __name__ == '__main__':
