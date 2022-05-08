@@ -64,6 +64,14 @@ if(process.client){
     flex-direction: column;
     justify-content: space-between;
     text-align: center;
+    box-shadow: 8px 8px 24px 0px rgba(66, 68, 90, 1);
+}
+.card.first{
+    background-color: #761774;
+    justify-content: center;
+    gap: 2em;
+    box-shadow:
+    0 0 50px -20px rgb(255, 21, 130)
 }
 .card.first{
     background-color: #761774;
