@@ -73,6 +73,13 @@ if(process.client){
     box-shadow:
     0 0 50px -20px rgb(255, 21, 130)
 }
+.card.first{
+    background-color: #761774;
+    justify-content: center;
+    gap: 2em;
+    box-shadow:
+    0 0 50px -20px rgb(255, 21, 130)
+}
 
 .card--empty{
     width: 15rem;
