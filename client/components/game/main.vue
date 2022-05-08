@@ -59,9 +59,18 @@ const createCards = async () => {
   createQuestion(items)
   console.log(items)
 }
-const nextCard = async () =>{
+
+const nextCard = async (swiper) =>{
   const { items } = await $fetch(`https://justcors.com/tl_3adbbae/https://drinkixxy.herokuapp.com/api/question?category=${categories}`)
+  
+
+  slides.value = slides.value.slice(1)
+  console.table(slides.value)
+  swiper.update()
+
   createQuestion(items)
+  createQuestion(items)
+  // swiper.update()
 }
 </script>
 <script>
@@ -101,5 +110,8 @@ export default {
   font-size: 22px;
   font-weight: bold;
   color: #fff;
+}
+.swiper-3d .swiper-slide-shadow{
+  display: none;
 }
 </style>
