@@ -54,29 +54,14 @@ const createQuestion = (data) =>{
 }
 
 const createCards = async () => {
-  const { items } = await $fetch(`https://justcors.com/tl_3adbbae/https://drinkixxy.herokuapp.com/api/question?category=${categories}&count=3`)
+  const { items } = await $fetch(`https://justcors.com/tl_0279cdf/https://drinkixxy.herokuapp.com/api/question?category=${categories}&count=3`)
   slides.value = []
   createQuestion(items)
   console.log(items)
 }
-<<<<<<< HEAD
-
-const nextCard = async (swiper) =>{
-  const { items } = await $fetch(`https://justcors.com/tl_3adbbae/https://drinkixxy.herokuapp.com/api/question?category=${categories}`)
-  
-
-  slides.value = slides.value.slice(1)
-  console.table(slides.value)
-  swiper.update()
-
-  createQuestion(items)
-  createQuestion(items)
-  // swiper.update()
-=======
 const nextCard = async () =>{
-  const { items } = await $fetch(`https://justcors.com/tl_3adbbae/https://drinkixxy.herokuapp.com/api/question?category=${categories}`)
+  const { items } = await $fetch(`https://justcors.com/tl_0279cdf/https://drinkixxy.herokuapp.com/api/question?category=${categories}`)
   createQuestion(items)
->>>>>>> 4277f09bbc2a4d1ba8488573e99e6ba854e37730
 }
 </script>
 <script>
@@ -117,10 +102,7 @@ export default {
   font-weight: bold;
   color: #fff;
 }
-<<<<<<< HEAD
 .swiper-3d .swiper-slide-shadow{
   display: none;
 }
-=======
->>>>>>> 4277f09bbc2a4d1ba8488573e99e6ba854e37730
 </style>

@@ -18,7 +18,7 @@
 
 <script setup>
 
-const { items: categories } = await $fetch('https://justcors.com/tl_3adbbae/https://drinkixxy.herokuapp.com/api/categories')
+const { items: categories } = await $fetch('https://justcors.com/tl_0279cdf/https://drinkixxy.herokuapp.com/api/categories')
 
 const selectedCategories = ref([])
 
