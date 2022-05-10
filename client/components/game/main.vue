@@ -10,7 +10,10 @@
             @init="createCards"
         >
           <swiper-slide v-for="(slide, index) in slides" :key="index" >
-            <GameCard :question="slide.question || ''" :category="slide.category || ''" :player="slide.player || false"/>
+            <GameCard :question="slide.question || ''" 
+            :category="slide.category || ''" 
+            :player="slide.player || false" 
+            :color="slide.color || ''"/>
           </swiper-slide>
         </swiper>
         </client-only>
@@ -45,7 +48,9 @@ const createQuestion = (data) =>{
     }
     if(players.length > 1){
       questions.forEach((question)=>{
-        question.player = players[Math.floor(Math.random() * players.length)].name
+        const selectedPlayer = players[Math.floor(Math.random() * players.length)]
+        question.player = selectedPlayer.name
+        question.color = selectedPlayer.color
       })
     }
 
@@ -54,13 +59,13 @@ const createQuestion = (data) =>{
 }
 
 const createCards = async () => {
-  const { items } = await $fetch(`https://justcors.com/tl_0279cdf/https://drinkixxy.herokuapp.com/api/question?category=${categories}&count=3`)
+  const { items } = await $fetch(`https://justcors.com/tl_393f616/https://drinkixxy.herokuapp.com/api/question?category=${categories}&count=3`)
   slides.value = []
   createQuestion(items)
   console.log(items)
 }
 const nextCard = async () =>{
-  const { items } = await $fetch(`https://justcors.com/tl_0279cdf/https://drinkixxy.herokuapp.com/api/question?category=${categories}`)
+  const { items } = await $fetch(`https://justcors.com/tl_393f616/https://drinkixxy.herokuapp.com/api/question?category=${categories}`)
   createQuestion(items)
 }
 </script>

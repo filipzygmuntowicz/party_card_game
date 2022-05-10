@@ -1,16 +1,10 @@
 <template>
-    <article class="card" v-if="!empty" :class="{ 'first': props.first }">
-        <template v-if="props.first">
-            <img src="@/assets/images/logo.svg" alt="Drinking card game">
-            Zaczynajmy!
-        </template>
-        <template v-else>
-            <div class="card__top">{{props.category}}</div>
-            <div class="card__content" :class="{ 'only': !props.player }">{{props.question}}</div>
-            <div class="card__bottom" v-if="props.player">
-                <span class="card__player"> <nuxt-icon name="user"/> {{props.player}}</span>
-            </div>
-        </template>
+    <article class="card" v-if="!empty">
+        <div class="card__top">{{props.category}}</div>
+        <div class="card__content" :class="{ 'only': !props.player }">{{props.question}}</div>
+        <div class="card__bottom" v-if="props.player" :style="props.color ? `background-color: ${props.color}` : ''">
+            <span class="card__player"> <nuxt-icon name="user"/> {{props.player}}</span>
+        </div>
     </article>
     <article v-else class="card--empty">
     </article>
@@ -32,10 +26,6 @@ const props = defineProps({
   },
   color: {
       type: String
-  },
-  first: {
-      type: Boolean,
-      default: false
   }
 })
 
