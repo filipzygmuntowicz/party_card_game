@@ -39,7 +39,7 @@
 </template>
 
 <script setup>
-const { items } = await $fetch(`https://justcors.com/tl_393f616/https://drinkixxy.herokuapp.com/api/question?category=random`)
+const { items } = await $fetch(`${useRuntimeConfig().public.baseURL}/question?category=random`)
 const { category, question } = items[0]
 </script>
 

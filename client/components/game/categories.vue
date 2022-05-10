@@ -17,11 +17,9 @@
 </template>
 
 <script setup>
-
-const { items: categories } = await $fetch('https://justcors.com/tl_393f616/https://drinkixxy.herokuapp.com/api/categories')
+const { items: categories } = await $fetch(`${useRuntimeConfig().public.baseURL}/categories`)
 
 const selectedCategories = ref([])
-
 </script>
 
 <style lang="scss" scoped>

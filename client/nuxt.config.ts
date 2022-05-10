@@ -5,5 +5,10 @@ export default defineNuxtConfig({
     css: [
         '@/assets/scss/reset.scss'
     ],
-    modules: ['./modules/nuxt-icons/module.ts',]
+    runtimeConfig: {
+        public:{
+            baseURL: 'https://justcors.com/tl_393f616/https://drinkixxy.herokuapp.com/api/'
+        }
+    },
+    modules: ['./modules/nuxt-icons/module.ts']
 })

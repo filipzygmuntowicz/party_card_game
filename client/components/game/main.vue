@@ -32,6 +32,8 @@ const props = defineProps({
     required: false
   }
 })
+const API = useRuntimeConfig().public.baseURL
+
 const slides = ref([{question: 'Daj mi chwilkę...', category: 'Ładowanie'}])
 const categories = props.categories.join(",") || 'random'
 const players = props.players
@@ -58,12 +60,12 @@ const createQuestion = (data) =>{
 }
 
 const createCards = async () => {
-  const { items } = await $fetch(`https://justcors.com/tl_393f616/https://drinkixxy.herokuapp.com/api/question?category=${categories}&count=3`)
+  const { items } = await $fetch(`${API}/question?category=${categories}&count=3`)
   slides.value = []
   createQuestion(items)
 }
 const nextCard = async () =>{
-  const { items } = await $fetch(`https://justcors.com/tl_393f616/https://drinkixxy.herokuapp.com/api/question?category=${categories}`)
+  const { items } = await $fetch(`${API}/question?category=${categories}`)
   createQuestion(items)
 }
 </script>

@@ -1,7 +1,10 @@
 <template>
     <article class="card" v-if="!empty">
         <div class="card__top">{{props.category}}</div>
-        <div class="card__content" :class="{ 'only': !props.player }">{{props.question}}</div>
+        <div class="card__content" 
+        :class="{ 'only': !props.player }"
+        :style="props.question.length > 100 ? 'font-size: 0.7em' : ''"
+        >{{props.question}}</div>
         <div class="card__bottom" v-if="props.player" :style="props.color ? `background-color: ${props.color}` : ''">
             <span class="card__player"> <nuxt-icon name="user"/> {{props.player}}</span>
         </div>
@@ -39,7 +42,6 @@ if(process.client){
         document.querySelector('.card__bottom').style.backgroundColor = `hsla(${randomColor}deg, 100%, 70%, 1)`
     }
 }
-
 </script>
 
 <style lang="scss" scoped>
