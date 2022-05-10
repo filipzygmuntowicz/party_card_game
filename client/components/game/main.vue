@@ -55,14 +55,12 @@ const createQuestion = (data) =>{
     }
 
     slides.value.push(...questions)
-    
 }
 
 const createCards = async () => {
   const { items } = await $fetch(`https://justcors.com/tl_393f616/https://drinkixxy.herokuapp.com/api/question?category=${categories}&count=3`)
   slides.value = []
   createQuestion(items)
-  console.log(items)
 }
 const nextCard = async () =>{
   const { items } = await $fetch(`https://justcors.com/tl_393f616/https://drinkixxy.herokuapp.com/api/question?category=${categories}`)
@@ -94,8 +92,8 @@ export default {
 
 <style lang="scss">
 .swiper {
-  width: 240px;
-  height: 320px;
+  width: 15rem;
+  height: 20rem;
 }
 
 .swiper-slide {

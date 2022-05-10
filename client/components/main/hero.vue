@@ -3,8 +3,6 @@
         <article class="box">
             <h1>
                 <img src="@/assets/images/logo.svg" alt="Drinking card game">
-                <!-- <span class="title__bold">Drinking</span>
-                <span class="title__under">card game</span>  -->
             </h1>
             <div class="box__content">
                 <div class="box__aside">
@@ -19,7 +17,9 @@
                 </div>
                 <div class="box__main">
                     <GameCard />
-                    <GameCard question="Co byś zrobił gdyby..." color="random"/>
+                    <client-only>
+                        <GameCard :question="question" :category="category"/>
+                    </client-only>
                     <GameCard />
                 </div>
                 <div class="box__aside">
@@ -37,6 +37,11 @@
         </article>
     </section>
 </template>
+
+<script setup>
+const { items } = await $fetch(`https://justcors.com/tl_393f616/https://drinkixxy.herokuapp.com/api/question?category=random`)
+const { category, question } = items[0]
+</script>
 
 <style scoped lang="scss">
 .hero{

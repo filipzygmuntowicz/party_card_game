@@ -118,7 +118,7 @@ if(process.client){
     line-height: 120%;
     letter-spacing: 0.5px;
     color: #222;
-    font-size: 0.7em;
+    // font-size: 0.7em;
 }
 .card__content.only{
     flex-grow: 0.5;
