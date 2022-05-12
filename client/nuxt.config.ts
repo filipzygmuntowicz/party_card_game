@@ -7,7 +7,7 @@ export default defineNuxtConfig({
     ],
     runtimeConfig: {
         public:{
-            baseURL: 'https://justcors.com/tl_393f616/https://drinkixxy.herokuapp.com/api/'
+            baseURL: 'https://justcors.com/tl_a626193/https://drinkixxy.herokuapp.com/api/'
         }
     },
     modules: ['./modules/nuxt-icons/module.ts']
