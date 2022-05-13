@@ -2,7 +2,16 @@
     <section class="authors" id="authors">
         <h2>Autorzy</h2>
         <div class="authors__content">
-            <p>W TRAKCIE...</p>
+            <box>
+                <div class="author">
+                    <span class="author__title">Backend</span>
+                    <span class="author__name"><a href="https://github.com/filipzygmuntowicz">@filipzygmuntowicz</a></span>
+                </div>
+                <div class="author">
+                    <span class="author__title">Frontend</span>
+                    <span class="author__name"><a href="https://github.com/gitfoxcode">@gitFoxCode</a></span>
+                </div>
+            </box>
         </div>
     </section>
 </template>
@@ -45,12 +54,39 @@ h2{
 .authors{
     padding: 0 15%;
     padding-top: 5rem;
-    min-height: 70vh;
+    min-height: 50vh;
     position: relative;
     z-index: 1;
     padding-bottom: 5rem;
     background-color: rgb(19,21,60, 0.9);
     background: linear-gradient(0deg, rgba(19,21,60,1) 0%, rgba(19,21,60,1) 50%, rgba(19,21,60,0.8) 100%);
 }
-
+.author{
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+    color: #FFF;
+    gap: 1rem;
+}
+.box{
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    margin-top: 2rem;
+    text-align: center;
+}
+.author__title{
+    font-weight: bold;
+    text-transform: uppercase;
+}
+.author__name a{
+    color: #fff;
+}
+@media (min-width: 850px) {
+    .box{
+        width: 100%;
+        flex-direction: row;
+        justify-content: space-evenly;
+    }
+}
 </style>

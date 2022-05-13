@@ -187,4 +187,23 @@ h1{
         }
     }
 }
+
+@media (max-width: 850px) {
+  .card--empty {
+    display: none;
+  }
+  .box__content{
+    flex-direction: column;
+    gap: 2em;
+  }
+  .box{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+  }
+  nav{
+      display: none;
+  }
+}
 </style>
