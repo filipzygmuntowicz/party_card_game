@@ -9,5 +9,7 @@
 </template>
 
 <script setup>
-
+/* 
+    Cards swiper
+*/
 </script>
