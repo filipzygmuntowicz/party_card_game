@@ -77,5 +77,9 @@ h2{
         z-index: -1;
     }
 }
-
+@media (max-width: 850px) {
+  .rules__content {
+    flex-direction: column;
+  }
+}
 </style>

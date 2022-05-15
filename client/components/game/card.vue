@@ -1,16 +1,13 @@
 <template>
-    <article class="card" v-if="!empty" :class="{ 'first': props.first }">
-        <template v-if="props.first">
-            <img src="@/assets/images/logo.svg" alt="Drinking card game">
-            Zaczynajmy!
-        </template>
-        <template v-else>
-            <div class="card__top">{{props.category}}</div>
-            <div class="card__content" :class="{ 'only': !props.player }">{{props.question}}</div>
-            <div class="card__bottom" v-if="props.player">
-                <span class="card__player"> <nuxt-icon name="user"/> {{props.player}}</span>
-            </div>
-        </template>
+    <article class="card" v-if="!empty">
+        <div class="card__top">{{props.category}}</div>
+        <div class="card__content" 
+        :class="{ 'only': !props.player }"
+        :style="props.question.length > 100 ? 'font-size: 0.7em' : ''"
+        >{{props.question}}</div>
+        <div class="card__bottom" v-if="props.player" :style="props.color ? `background-color: ${props.color}` : ''">
+            <span class="card__player"> <nuxt-icon name="user"/> {{props.player}}</span>
+        </div>
     </article>
     <article v-else class="card--empty">
     </article>
@@ -32,10 +29,6 @@ const props = defineProps({
   },
   color: {
       type: String
-  },
-  first: {
-      type: Boolean,
-      default: false
   }
 })
 
@@ -49,7 +42,6 @@ if(process.client){
         document.querySelector('.card__bottom').style.backgroundColor = `hsla(${randomColor}deg, 100%, 70%, 1)`
     }
 }
-
 </script>
 
 <style lang="scss" scoped>
@@ -128,7 +120,7 @@ if(process.client){
     line-height: 120%;
     letter-spacing: 0.5px;
     color: #222;
-    font-size: 0.7em;
+    // font-size: 0.7em;
 }
 .card__content.only{
     flex-grow: 0.5;

@@ -4,18 +4,13 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_restful import Api, Resource
 import random
 
-json_data = json.load(open('questions.json', encoding="utf-8"))
-
-# NEEDS TO BE CHANGED AFTER ADDING/DELETNING A CATEGORY
-categories_count = 8
-
 
 app = Flask(__name__)
 app.secret_key = "don't tell anyone"
 api = Api(app)
-ENV = 'prod'
+ENV = 'dev'
 
-if ENV == 'prod':
+if ENV == 'dev':
     config = str(open('configlocal.txt', 'r').read())
     app.debug = True
 else:
@@ -29,28 +24,48 @@ app.config['JSONIFY_PRETTYPRINT_REGULAR'] = True
 db = SQLAlchemy(app)
 
 
-def random_questions(par, value, count):
+def random_questions(value, count):
     print(value)
-    if par == "category":
-        data = Card.query.filter_by(
-                            category=value).first()
-    elif par == "id":
-        data = Card.query.filter_by(
-                            id=value).first()
+    data = Card.query.filter_by(
+        category=value).first()
     category = data.category
-    data = data.questions
-    data = list(data.split(';'))
+    data = list(data.questions.split(';'))
     return_data = []
     if count > len(data):
         count = len(data)
     for i in range(0, count):
         question = data[random.randint(0, len(data)-1)]
-        while question in return_data:
+        while {
+            "category": category,
+            "question": question
+                } in return_data:
             question = data[random.randint(0, len(data)-1)]
         return_data.append(({
                     "category": category,
                     "question": question
                     }))
+    return return_data
+
+
+def random_questions_random_category(count):
+    return_data = []
+    data = Card.query.all()
+    for i in range(count):
+        card = data[
+            random.randint(0, len(data)-1)
+            ]  
+        category = card.category
+        questions = list(card.questions.split(';'))
+        question = questions[random.randint(0, len(questions))]
+        while {
+            "category": category,
+            "question": question
+                } in return_data:
+            question = questions[random.randint(0, len(questions))]
+        return_data.append(({
+                        "category": category,
+                        "question": question
+                        }))
     return return_data
 
 
@@ -73,38 +88,38 @@ class Card(db.Model):
 
 class All_cards_api(Resource):
     def get(self):
-        data = []
+        return_data = []
         for card in Card.query.all():
-            data.append({
+            return_data.append({
                 "category": card.category,
                 "nsfw": card.nsfw,
                 "number_of_questions": len(list(
                     card.questions.split(';'))
                     )}
             )
-        return {"items": data}
+        return {"items": return_data}
 
 
 class Select_cards_api(Resource):
     def get(self):
         args = request.args
         count = 1
-        ret_data = []
+        return_data = []
         if "count" in args:
             count = int(args.get("count"))
         if "category" in args:
             categories = (args.get("category").split(','))
             for category in categories:
                 if category != "random":
-                    for question in random_questions("category", category, count):
-                        ret_data.append(question)
+                    for question in random_questions(category, count):
+                        return_data.append(question)
         if "category" not in args or "random" in categories:
-            for question in random_questions("id", str(random.randint(1, categories_count)), count):
-                ret_data.append(question)
-        random.shuffle(ret_data)
+            for question in random_questions_random_category(count):
+                return_data.append(question)
+        random.shuffle(return_data)
         return {
-            "totalItems": len(ret_data[0:count]),
-            "items": ret_data[0:count]
+            "totalItems": len(return_data[0:count]),
+            "items": return_data[0:count]
             }
 
 
@@ -123,7 +138,9 @@ def add_to_database_from_json(json_data):
         db.session.add(data)
         db.session.commit()
 
-#add_to_database_from_json(json_data)
+#   with open('questions.json', encoding="utf-8") as json_file:
+#       json_data = json.load(json_file)
+#   add_to_database_from_json(json_data)
 
 
 if __name__ == '__main__':
