@@ -4,16 +4,16 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_restful import Api, Resource
 import random
 
-
+ENV = 'prod'
 app = Flask(__name__)
 app.secret_key = "don't tell anyone"
 api = Api(app)
-ENV = 'dev'
+
 
 if ENV == 'dev':
-    config = str(open('configlocal.txt', 'r').read())
+    config = open('configlocal.txt', 'r').read()
     app.debug = True
-else:
+elif ENV == 'prod':
     config = open('configheroku.txt', 'r').read()
     app.debug = False
 
@@ -26,44 +26,54 @@ db = SQLAlchemy(app)
 
 def random_questions(value, count):
     print(value)
-    data = Card.query.filter_by(
+    card = Card.query.filter_by(
         category=value).first()
-    category = data.category
-    data = list(data.questions.split(';'))
+    category = card.category
+    name = card.name
+    card = list(card.questions.split(';'))
     return_data = []
-    if count > len(data):
-        count = len(data)
+    if count > len(card):
+        count = len(card)
     for i in range(0, count):
-        question = data[random.randint(0, len(data)-1)]
+        question = card[random.randint(0, len(card)-1)]
         while {
             "category": category,
+            "name": name,
             "question": question
                 } in return_data:
-            question = data[random.randint(0, len(data)-1)]
+            question = card[random.randint(0, len(card)-1)]
         return_data.append(({
                     "category": category,
+                    "name": name,
                     "question": question
                     }))
     return return_data
 
 
-def random_questions_random_category(count):
+def random_questions_random_category(count, nsfw):
     return_data = []
     data = Card.query.all()
     for i in range(count):
         card = data[
             random.randint(0, len(data)-1)
-            ]  
+            ]
+        while card.nsfw != nsfw:
+            card = data[
+                random.randint(0, len(data)-1)          
+            ]
         category = card.category
+        name = card.name
         questions = list(card.questions.split(';'))
-        question = questions[random.randint(0, len(questions))]
+        question = questions[random.randint(0, len(questions)-1)]
         while {
             "category": category,
+            "name": name,
             "question": question
                 } in return_data:
-            question = questions[random.randint(0, len(questions))]
+            question = questions[random.randint(0, len(questions)-1)]
         return_data.append(({
                         "category": category,
+                        "name": name,
                         "question": question
                         }))
     return return_data
@@ -73,15 +83,17 @@ class Card(db.Model):
     __tablename__ = 'Categories'
     id = db.Column(db.String, primary_key=True)
     category = db.Column(db.String)
+    name = db.Column(db.String)
     nsfw = db.Column(db.Boolean)
     questions = db.Column(db.String)
 
     def __init__(
-        self, id, category,
+        self, id, category, name,
         nsfw, questions
     ):
         self.id = id
         self.category = category
+        self.name = name
         self.nsfw = nsfw
         self.questions = questions
 
@@ -92,6 +104,7 @@ class All_cards_api(Resource):
         for card in Card.query.all():
             return_data.append({
                 "category": card.category,
+                "name": card.name,
                 "nsfw": card.nsfw,
                 "number_of_questions": len(list(
                     card.questions.split(';'))
@@ -105,6 +118,9 @@ class Select_cards_api(Resource):
         args = request.args
         count = 1
         return_data = []
+        nsfw = bool(random.getrandbits(1))
+        if "nsfw" in args:
+            nsfw = args.get("nfw")
         if "count" in args:
             count = int(args.get("count"))
         if "category" in args:
@@ -114,7 +130,7 @@ class Select_cards_api(Resource):
                     for question in random_questions(category, count):
                         return_data.append(question)
         if "category" not in args or "random" in categories:
-            for question in random_questions_random_category(count):
+            for question in random_questions_random_category(count, bool(nsfw)):
                 return_data.append(question)
         random.shuffle(return_data)
         return {
@@ -128,19 +144,23 @@ api.add_resource(Select_cards_api, "/api/question")
 
 
 def add_to_database_from_json(json_data):
-    for x in json_data:
+    for cards in json_data:
         data = Card(
-            x["id"],
-            x["category"],
-            x["nsfw"],
-            ';'.join([item for item in x["questions"]])
+            cards["id"],
+            cards["category"],
+            cards["name"],
+            cards["nsfw"],
+            ';'.join([item for item in cards["questions"]])
         )
         db.session.add(data)
         db.session.commit()
 
-#   with open('questions.json', encoding="utf-8") as json_file:
-#       json_data = json.load(json_file)
-#   add_to_database_from_json(json_data)
+
+def create_table():
+    with open('questions.json', encoding="utf-8") as json_file:
+        json_data = json.load(json_file)
+    db.create_all()
+    add_to_database_from_json(json_data)
 
 
 if __name__ == '__main__':

@@ -2,6 +2,7 @@
     {
        "id":1,
        "category":"popular",
+       "name":"Popular ⭐",
        "nsfw":false,
        "questions":[
           "Would you rather accidentally step on a LEGO brick or accidentally step on cat shit?",
@@ -305,6 +306,7 @@
     {
        "id":2,
        "category":"easy",
+       "name":"Easy 👌",
        "nsfw":false,
        "questions":[
           "Would you rather be a babysitter or be a dog sitter?",
@@ -512,6 +514,7 @@
     {
        "id":3,
        "category":"kids",
+       "name":"Kids 😺",
        "nsfw":false,
        "questions":[
           "Would you rather hear plants scream when you cut them or animals beg for their lives before they are killed?",
@@ -788,6 +791,7 @@
     {
       "id":4,
        "category":"crazy",
+       "name":"Crazy 🤪",
        "nsfw":true,
        "questions":[
           "Would you rather abort a baby made with the person to your right or abort a baby made with the person to your left?",
@@ -966,6 +970,7 @@
     {
       "id":5,
        "category":"hard",
+       "name":"Hard 🤐",
        "nsfw":true,
        "questions":[
           "Would you rather always be slightly cold or always slightly have the urge to pee?",
@@ -1221,6 +1226,7 @@
     {
       "id":6,
        "category":"party",
+       "name":"Party 🥳",
        "nsfw":false,
        "questions":[
           "Would you rather 5% of the population have telepathy or 5% of the population have telekinesis?",
@@ -1378,6 +1384,7 @@
     {
       "id":7,
        "category":"hot",
+       "name":"Hot 😈",
        "nsfw":true,
        "questions":[
           "Would you rather always have to be on top or always have to be on the bottom?",
@@ -1566,6 +1573,7 @@
     {
       "id":8,
         "category":"never_have_i_ever",
+        "name":"Never have I ever 🤔",
         "nsfw":true,
         "questions":[
             "Never Have I Ever shoplifted.",
