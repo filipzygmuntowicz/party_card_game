@@ -5,7 +5,7 @@ Currently you can only use the api.
 
 https://drinkixxy.herokuapp.com/api/categories returns all categories of cards 
 
-drinkixxy.herokuapp.com/api/question returns a random question from random (by default) category, you can specify it more with:
+https://drinkixxy.herokuapp.com/api/question returns a random question from random (by default) category, you can specify it more with:
 
 - `?category=` - specifies the category of returned question, `?category=random` returns random question. You can input multiple categories and seperate them with "," and it will choose them randomly.
 - `?count=` - specifies the amount of returned questions.
