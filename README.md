@@ -13,4 +13,4 @@ https://drinkixxy.herokuapp.com/api/question returns a random question from rand
 
 You can mix these queries, for example:
 https://drinkixxy.herokuapp.com/api/question?category=popular,random,kids&nsfw=False&count=10
-will return 10 non-nsfw questionns of randomly choosen categories from [popular, random, kids].
+will return 10 non-nsfw questionns of randomly chosen categories from [popular, random, kids].
